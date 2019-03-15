@@ -1,10 +1,15 @@
 
 /*
 TODO: 
-1) refactor addWork/delWork, addVolunteer/delVolunteer, addEducation/delEducation functions
-2) Work/Vol/edu history sections can probably be redone as well
-3) 
+    REFACTOR:
+    Functions: signUp, workHistory, volunteerHistory, educationHistory, resumeGenerate (Lines: 44 - 332)
+        We're there is a better way to grab this information from the user than doing a ton of querySelectors but
+        not sure of the best route to go.
 
+    Functions: addWork, addVolunteer, addEducation, delWork, delVolunteer, delEducation (Lines: 416 - 579)
+        I am pretty sure I can figure this out on my own, currently my idea is to see if an element contains a class
+        i can try it compare it with another string, so if the element contains the class "work-cloned-input" i can compare it
+        with the other string and if they match, then execute the code i need. But if there are better ways to do it, i am open to it!
 */
 
 
