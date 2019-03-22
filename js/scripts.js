@@ -413,6 +413,7 @@ btnEducationDelete.disabled = true;
 // let eduSubStr = 'edu';
 // console.log(`LOOK HERE: ${workClone}`);
 
+// REFACTOR
 
 function cloneFormHelper(newElemCloned, newNum){
     // reset input values
@@ -423,7 +424,57 @@ function cloneFormHelper(newElemCloned, newNum){
     updateWorkOnChange(newElemCloned, newNum);
 }
 
-// REFACTOR
+function getFormQuery(entry) {
+    // let arrFormEntryID = [document.querySelector('#workEntry1').getAttributeNode("id"), 
+    //               document.querySelector('#volunteerEntry1').getAttributeNode("id"),
+    //               document.querySelector('#educationEntry1').getAttributeNode("id")];
+    // let buttonEntry = switch (entry){
+    //     case "workEntry1": let buttonEntry = entry;
+
+    // }
+    if (entry.match(/^(workEntry1)$/)) {
+        getformQueryArrayValue();
+    }if (entry.match(/^(volunteerEntry1)$/)) {
+        getformQueryArrayValue();
+    }if (entry.match(/^(educationEntry1)$/)) {
+        getformQueryArrayValue();
+    }
+
+}
+// let formQuery = document.querySelectorAll("#workEntry1, #volunteerEntry1, #educationEntry1");
+// console.log(`here first ${formQuery}`)
+// console.log(formQuery)
+
+
+function getformQueryArrayValue(getFormQuery){
+    Array.from(getFormQuery).map(function (element){
+        for (i = 0; i < formQuery.length; i++){
+            let formQueryArrayValue = element.getAttributeNode("id").value;
+            console.log(formQueryArrayValue);
+          
+        }
+    });
+}
+
+// getformQueryArrayValue(formQuery)
+// let formQueryArrayValue = Array.from(formQuery).map(function (element){
+//     for (i = 0; i < formQuery.length; i++){
+//         let formQueryArrayValue = element.getAttributeNode("id").value;
+//         console.log(formQueryArrayValue);
+      
+//     }
+// });
+
+// let clonedInput = formQueryArrayValue;
+// console.log(clonedInput)
+let formCloneObj = {
+    clonedInput: getformQueryArrayValue(formQuery),
+    num: clonedInput.length,
+    newNum: num++,
+    newElem: document.querySelector(entry + num),
+}
+
+console.log(`LOOOOKKK HEERRREEEE ${formCloneObj.clonedInput}`);
 function cloneForm() {
     //Checks for number of forms
     let num = document.querySelectorAll(".work-cloned-input", ".work-cloned-textarea", ".vol-cloned-input",".vol-cloned-textarea",".edu-cloned-input").length;
@@ -433,7 +484,7 @@ function cloneForm() {
     let eduClone = document.querySelector('#educationEntry1').getAttributeNode("id");
 
     // Incremating the id by 1 for every new duplicate form
-    let newNum = num + 1;
+    let newNum = num + 1;        
 
     if(workClone.value.includes('work')){
         console.log("YOOO workID IT WOKRED");
@@ -677,18 +728,22 @@ function delEducation() {
 
 //ADD DUPLICATE FORM LISTENERS
 btnWorkAdd.addEventListener(
-    "click",
-    cloneForm
+    "click",function(){
+        let entry = document.querySelector('#workEntry1').getAttributeNode("id").value;
+    }
+
 );
 
 btnVolunteerAdd.addEventListener(
-    "click",
-    cloneForm
+    "click",function(){
+        let entry = document.querySelector('#volunteerEntry1').getAttributeNode("id").value;
+    }
 );
 
 btnEducationAdd.addEventListener(
-    "click",
-    cloneForm
+    "click",function(){
+        let entry = document.querySelector('#educationEntry1').getAttributeNode("id").value;
+    }
 );
 
 // DELETE CLONED FORM LISTENERS
