@@ -428,15 +428,6 @@ function cloneFormHelper(newElemCloned, newNum){
     updateIds(newElemCloned, newNum);
     updateWorkOnChange(newElemCloned, newNum);
 }
-// function updateIds(clone, newNum) {
-//     let inputs = clone.querySelectorAll("*");
-//     inputs.forEach(function(input) {
-//         if (input.id) {
-//             input.setAttribute("id", input.id.slice(0, -1) + newNum);
-//         };
-//     });
-// }
-
 
 function getFormSection(entry) {
     if (entry.match(/^(workEntry1)$/)) {
@@ -457,9 +448,16 @@ function getFormEntryNoNum(entry){
     return entryNoNum;
 }
 
-function cloneForm(entry) {
+function headerChange(headerStr, headerListing, newNum){
+    let header = newElemCloned.querySelector(`.${headerStr}-heading-ref`);
+    header.setAttribute("id", "ID" + newNum + `_${headerStr}Ref`);
+    header.setAttribute("name", "ID" + newNum + `_${headerStr}Ref`);
+    header.innerHTML = `${headerListing} #` + newNum;
+}
+
+function cloneForm(num, entry) {
     //Checks for number of forms
-    let num = document.querySelectorAll(".work-cloned-input", ".work-cloned-textarea", ".vol-cloned-input",".vol-cloned-textarea",".edu-cloned-input").length;
+    // let num = document.querySelectorAll(".work-cloned-input", ".work-cloned-textarea", ".vol-cloned-input",".vol-cloned-textarea",".edu-cloned-input").length;
     // let num = 1;
     console.log(`num: ${num}`);
     getFormSection
@@ -476,12 +474,11 @@ function cloneForm(entry) {
     console.log(newElemCloned);
     newElemCloned.setAttribute("id", `${entryNoNum}${newNum}`);
     // console.log(`newElemCloned ID Value: ${newElemCloned.getAttributeNode("id")}`);
-
     // Header Change
-    let header = newElemCloned.querySelector(".heading-ref");
-    header.setAttribute("id", "ID" + newNum + "_workRef");
-    header.setAttribute("name", "ID" + newNum + "_workRef");
-    header.innerHTML = "Job #" + newNum;
+    // let header = newElemCloned.querySelector(".work-heading-ref");
+    // header.setAttribute("id", "ID" + newNum + "_workRef");
+    // header.setAttribute("name", "ID" + newNum + "_workRef");
+    // header.innerHTML = "Job #" + newNum;
 
     cloneFormHelper(newElemCloned, newNum);
     // Insert the new element after the last "duplicatable" input field
@@ -580,7 +577,7 @@ function addWork() {
     // updateWorkOnChange(newElemCloned, newNum);
 
     // // Header Change
-    // let header = newElemCloned.querySelector(".heading-ref");
+    // let header = newElemCloned.querySelector(".workheading-ref");
     // header.setAttribute("id", "ID" + newNum + "_workRef");
     // header.setAttribute("name", "ID" + newNum + "_workRef");
     // header.innerHTML = "Job #" + newNum;
@@ -733,23 +730,32 @@ function delEducation() {
 //ADD DUPLICATE FORM LISTENERS
 btnWorkAdd.addEventListener(
     "click",function(){
+        let num = document.querySelectorAll(".work-cloned-input", ".work-cloned-textarea").length;
         let entry = document.querySelector('#workEntry1').getAttributeNode("id").value;
-        cloneForm(entry);
+        let headerStr = 'work';
+        let headerListing = "Job";
+        cloneForm(num, entry, headerStr, headerListing);
     }
 
 );
 
 btnVolunteerAdd.addEventListener(
     "click", function(){
+        let num = document.querySelectorAll(".vol-cloned-input",".vol-cloned-textarea").length;
         let entry = document.querySelector('#volunteerEntry1').getAttributeNode("id").value;
-        cloneForm(entry);    }
+        let headerStr = 'vol';
+        let headerListing = "Volunteer";
+        cloneForm(num, entry, headerStr, headerListing);    }
     
 );
 
 btnEducationAdd.addEventListener(
     "click",function(){
+        let num = document.querySelectorAll(".edu-cloned-input").length;
         let entry = document.querySelector('#educationEntry1').getAttributeNode("id").value;
-        cloneForm(entry);    }
+        let headerStr = 'edu';
+        let headerListing = "Education";
+        cloneForm(num, entry, headerStr, headerListing);    }
 );
 
 // DELETE CLONED FORM LISTENERS
