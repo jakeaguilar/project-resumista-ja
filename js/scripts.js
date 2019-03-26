@@ -451,16 +451,18 @@ function headerChange(headerStr, headerListing, newElemCloned, newNum){
     header.innerHTML = `${headerListing} #` + newNum;
 }
 // TODO:
-function formLimit (newNum){
+function formLimit(num, entry){
     //Work and Volunteer Form Limit
-    if (newNum === 3) {
+    if (num === 2 && entry.match(/^(workEntry1)$/)) {
         btnWorkAdd.disabled = true;
         btnWorkAdd.setAttribute("value", "You've reached the limit");
+    }
+    if (num === 2 && entry.match(/^(volunteerEntry1)$/)){
         btnVolunteerAdd.disabled = true;
         btnVolunteerAdd.setAttribute("value", "You've reached the limit");
     }
     // Education Form Limit
-    if (newNum === 2) {
+    if (num === 1 && entry.match(/^(educationEntry1)$/)) {
         btnEducationAdd.disabled = true;
         btnEducationAdd.setAttribute("value", "You've reached the limit");
     }
@@ -678,6 +680,7 @@ btnWorkAdd.addEventListener(
         let headerStr = 'work';
         let headerListing = "Job";
         cloneForm(num, entry, headerStr, headerListing);
+        formLimit(num,entry);
     }
 
 );
@@ -689,6 +692,8 @@ btnVolunteerAdd.addEventListener(
         let headerStr = 'vol';
         let headerListing = "Volunteer";
         cloneForm(num, entry, headerStr, headerListing);
+        formLimit(num, entry);
+
 
     }
     
@@ -701,6 +706,8 @@ btnEducationAdd.addEventListener(
         let headerStr = 'edu';
         let headerListing = "Education";
         cloneForm(num, entry, headerStr, headerListing);
+        formLimit(num, entry);
+
 
      }
 );
