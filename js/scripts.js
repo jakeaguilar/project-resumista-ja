@@ -515,7 +515,7 @@ function delForm(num, entry, headerListing){
         console.log(`delete entry: ${entry}`)
         if(confirm(`Are you sure you wish to remove ${headerListing} #${num}? This cannot be undone.`)) {
             // remove last section
-            let formRemove = document.querySelector(`#volunterEntry${num}`).remove();
+            let formRemove = document.querySelector(`#volunteerEntry${num}`).remove();
             console.log(`formRemove: ${formRemove}`)
             // update num
             num = document.querySelectorAll(".vol-cloned-input",".vol-cloned-textarea").length;
