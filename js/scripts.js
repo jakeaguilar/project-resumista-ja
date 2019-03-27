@@ -451,7 +451,7 @@ function headerChange(headerStr, headerListing, newElemCloned, newNum){
 
 function formLimit(num, entry){
     //Work and Volunteer Form Limit
-    if (num === 2 && entry.match(/^(workEntry1)$/)) {
+    if (num == 2 && entry.match(/^(workEntry1)$/)) {
         btnWorkAdd.disabled = true;
         btnWorkAdd.setAttribute("value", "You've reached the limit");
     }
@@ -491,74 +491,61 @@ function cloneForm(num, entry, headerStr, headerListing) {
     btnWorkDelete.disabled = false;
     btnVolunteerDelete.disabled = false;
     btnEducationDelete.disabled = false;
-    // TODO:
     formLimit(num, entry);
     
 }
 
-// DELETE DUPLICATE FORM FUNCTIONS
-function delWork() {
-    // check how many duplicated sections we currently have
-    let num = document.querySelectorAll(".work-cloned-input",".work-cloned-textarea").length;
-
-    // Confirmation dialog box
-    if (confirm(`Are you sure you wish to remove Job #${num}? This cannot be undone.`)) {
-        // remove last section
-        document.querySelector("#workEntry" + num).remove();
-        // update num
-        num = document.querySelectorAll(".work-cloned-input",".work-cloned-textarea").length;
-        if (num == 1) {
-            btnWorkDelete.disabled = true;
+// DEL FORM REFACTOR
+function delForm(num, entry, headerListing){
+    if (entry.match(/^(workEntry1)$/)) {
+        console.log(`delete entry: ${entry}`);
+        console.log(`headerListing and Num: ${headerListing} #${num}`)
+        console.log(document.querySelector("#workEntry1"))
+        if (confirm(`Are you sure you wish to remove ${headerListing} #${num}? This cannot be undone.`)) {
+            // remove last section
+            console.log(`num before remove: #workEntry${num}`)
+            let formRemove = document.querySelector(`#workEntry${num}`).remove();
+            console.log(`formRemove: ${formRemove}`)
+            // update num
+            num = document.querySelectorAll(".work-cloned-input",".work-cloned-textarea").length;
+            console.log(`updated delete num: ${num}`)
+            if (num == 1) {
+                btnWorkDelete.disabled = true;
+                btnWorkAdd.disabled = false;
+            }
         }
-        if (num < 5) {
-            btnWorkAdd.disabled = false;
-            btnWorkAdd.setAttribute("value", "add section");
+    }
+
+    if(entry.match(/^(volunteerEntry1)$/)){
+        console.log(`delete entry: ${entry}`)
+        if(confirm(`Are you sure you wish to remove ${headerListing} #${num}? This cannot be undone.`)) {
+            // remove last section
+            let formRemove = document.querySelector(`#volunteerEntry${num}`).remove();
+            console.log(`formRemove: ${formRemove}`)
+            // update num
+            num = document.querySelectorAll(".vol-cloned-input",".vol-cloned-textarea").length;
+            console.log(`updated delete num: ${num}`)
+            if (num == 1) {
+                btnVolunteerDelete.disabled = true;
+                btnVolunteerAdd.disabled = false;
+            }
+        }
+    }
+    if(entry.match(/^(educationEntry1)$/)){
+        console.log(entry);
+        if (confirm(`Are you sure you wish to remove ${headerListing} #${num}? This cannot be undone.`)) {
+            // remove last section
+            document.querySelector(`#educationEntry${num}`).remove();
+            // update num
+            num = document.querySelectorAll(".edu-cloned-input",".edu-cloned-textarea").length;
+            console.log(`updated delete num: ${num}`)
+            if (num === 2) {
+                btnEducationDelete.disabled = true;
+                btnEducationAdd.disabled = false;
+            }
         }
     }
 }
-
-function delVolunteer() {
-    //   console.log(`vol dup sections: ${num}`)
-    // check how many duplicated sections we currently have
-    let num = document.querySelectorAll(".vol-cloned-input",".vol-cloned-textarea").length;
-
-    // Confirmation dialog box
-    if (confirm(`Are you sure you wish to remove Volunteer #${num}? This cannot be undone.`)) {
-        // remove last section
-        document.querySelector("#volunteerEntry" + num).remove();
-        // update num
-        num = document.querySelectorAll(".vol-cloned-input",".vol-cloned-textarea").length;
-        if (num == 1) {
-            btnVolunteerDelete.disabled = true;
-        }
-        if (num < 5) {
-            btnVolunteerAdd.disabled = false;
-            btnVolunteerAdd.setAttribute("value", "add section");
-        }
-    }
-}
-
-function delEducation() {
-    //   console.log(`vol dup sections: ${num}`)
-    // check how many duplicated sections we currently have
-    let num = document.querySelectorAll(".edu-cloned-input").length;
-
-    // Confirmation dialog box
-    if (confirm(`Are you sure you wish to remove Education #${num}? This cannot be undone.`)) {
-        // remove last section
-        document.querySelector("#educationEntry" + num).remove();
-        // update num
-        num = document.querySelectorAll(".edu-cloned-input").length;
-        if (num == 1) {
-            btnEducationDelete.disabled = true;
-        }
-        if (num < 5) {
-            btnEducationAdd.disabled = false;
-            btnEducationAdd.setAttribute("value", "add section");
-        }
-    }
-}
-
 //ADD DUPLICATE FORM LISTENERS
 btnWorkAdd.addEventListener(
     "click",function(){
@@ -596,18 +583,35 @@ btnEducationAdd.addEventListener(
 
 // DELETE CLONED FORM LISTENERS
 btnWorkDelete.addEventListener(
-    "click",
-    delWork
+    "click",function(){
+        let num = document.querySelectorAll(".work-cloned-input", ".work-cloned-textarea").length;
+        //Grab (form)Entry value
+        let entry = document.querySelector('#workEntry1').getAttributeNode("id").value;
+        let headerListing = "Job";
+        delForm(num, entry, headerListing)
+    }
 );
 
 btnVolunteerDelete.addEventListener(
-    "click",
-    delVolunteer
+    "click",function(){
+        let num = document.querySelectorAll(".vol-cloned-input",".vol-cloned-textarea").length;
+        let entry = document.querySelector('#volunteerEntry1').getAttributeNode("id").value;
+        let headerListing = "Volunteer";
+        delForm(num, entry, headerListing)
+
+    }
 );
 
 btnEducationDelete.addEventListener(
-    "click",
-    delEducation
+    "click",function(){
+        let num = document.querySelectorAll(".edu-cloned-input").length;
+        let entry = document.querySelector('#educationEntry1').getAttributeNode("id").value;
+        let headerListing = "Education";
+        delForm(num, entry, headerListing)
+
+        
+    }
+    
 );
 
 var jobsAndSkills = {};
